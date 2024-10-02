@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	svg {
+		@apply inline-block align-middle;
+	}
+	input,
+	button,
+	select {
+		@apply outline-none disabled:opacity-50;
+	}
+	@font-face {
+		font-family: 'Roboto';
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+		src: url(@/assets/fonts/Roboto.ttf) format('truetype');
+	}
+}
