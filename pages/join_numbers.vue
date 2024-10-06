@@ -4,10 +4,10 @@
 			<form @submit.prevent="start" class="border-2 border-violet-500 p-4 rounded w-full min-w-[15rem] max-w-[30rem] grid gap-2">
 				<p>Select Dimension:</p>
 				<div class="flex gap-2 justify-center flex-wrap">
-					<input type="number" min="2" max="5" inputmode="numeric" v-model="dimension.y" required class="bg-gray-300 rounded w-16 text-center" />
+					<input type="number" min="2" max="6" inputmode="numeric" v-model="dimension.y" required class="bg-gray-300 rounded w-16 text-center" />
 					<span>by</span>
-					<input type="number" min="2" max="5" inputmode="numeric" v-model="dimension.x" required class="bg-gray-300 rounded w-16 text-center" />
-					<p class="w-full text-center text-xs text-gray-600">Minimum:2, Maximum:5</p>
+					<input type="number" min="2" max="6" inputmode="numeric" v-model="dimension.x" required class="bg-gray-300 rounded w-16 text-center" />
+					<p class="w-full text-center text-xs text-gray-600">Minimum:2, Maximum:6</p>
 				</div>
 				<div class="grid grid-cols-2 gap-2">
 					<button type="submit" class="bg-violet-500 rounded px-2 py-0.5">Start!</button>
