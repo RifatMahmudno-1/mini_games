@@ -102,12 +102,13 @@
 	function computerTurn() {
 		clickDisabled.value = true
 		// depth = Infinity means find the best move without limiting
-		const bestMove = findBestMove(false, dimension.value === 3 ? Infinity : dimension.value)
+		// if dimension is more than 3 then set depth to 4 to make it faster.
+		const bestMove = findBestMove(false, dimension.value <= 3 ? Infinity : 4)
 		clickDisabled.value = false
 		clicked(bestMove)
 	}
 
-	function minimax(newBoard: (null | string)[], depth: number, isMaximizingPlayer: boolean) {
+	function alphabeta(newBoard: (null | string)[], depth: number, isMaximizingPlayer: boolean, alpha: number, beta: number) {
 		if (isWinner(players.value[1].dice, newBoard)) return 1
 		if (isWinner(players.value[0].dice, newBoard)) return -1
 		if (depth === 0 || isDraw(newBoard)) return 0
@@ -117,9 +118,11 @@
 			for (let i = 0; i < newBoard.length; i++) {
 				if (newBoard[i] !== null) continue
 				newBoard[i] = players.value[1].dice
-				let val = minimax(newBoard, depth - 1, false)
+				let val = alphabeta(newBoard, depth - 1, false, alpha, beta)
 				newBoard[i] = null
 				maxVal = Math.max(maxVal, val)
+				alpha = Math.max(alpha, val)
+				if (beta <= alpha) break
 			}
 			return maxVal
 		} else {
@@ -127,9 +130,11 @@
 			for (let i = 0; i < newBoard.length; i++) {
 				if (newBoard[i] !== null) continue
 				newBoard[i] = players.value[0].dice
-				let val = minimax(newBoard, depth - 1, true)
+				let val = alphabeta(newBoard, depth - 1, true, alpha, beta)
 				newBoard[i] = null
 				minVal = Math.min(minVal, val)
+				beta = Math.min(beta, val)
+				if (beta <= alpha) break
 			}
 			return minVal
 		}
@@ -139,11 +144,13 @@
 		let newBoard = [...board.value]
 		let bestScore = isMaximizingPlayer ? Infinity : -Infinity
 		let bestMove = -1
+		let alpha = -Infinity
+		let beta = Infinity
 
 		for (let i = 0; i < newBoard.length; i++) {
 			if (newBoard[i] !== null) continue
 			newBoard[i] = isMaximizingPlayer ? players.value[0].dice : players.value[1].dice
-			let score = minimax(newBoard, depth - 1, isMaximizingPlayer)
+			let score = alphabeta(newBoard, depth - 1, isMaximizingPlayer, alpha, beta)
 			newBoard[i] = null
 
 			if (!isMaximizingPlayer) {
@@ -222,7 +229,8 @@
 		}
 		chance.value = firstMove.value
 		winner.value = null
-		if (gameMode.value === 1 && chance.value === 1) clicked(0)
+		// just to make it faster
+		if (gameMode.value === 1 && chance.value === 1) clicked(1) // computerTurn()
 	}
 
 	function restart() {
@@ -237,4 +245,58 @@
 		chance.value = 0
 		winner.value = null
 	}
+
+	// function minimax(newBoard: (null | string)[], depth: number, isMaximizingPlayer: boolean) {
+	// 	if (isWinner(players.value[1].dice, newBoard)) return 1
+	// 	if (isWinner(players.value[0].dice, newBoard)) return -1
+	// 	if (depth === 0 || isDraw(newBoard)) return 0
+
+	// 	if (isMaximizingPlayer) {
+	// 		let maxVal = -Infinity
+	// 		for (let i = 0; i < newBoard.length; i++) {
+	// 			if (newBoard[i] !== null) continue
+	// 			newBoard[i] = players.value[1].dice
+	// 			let val = minimax(newBoard, depth - 1, false)
+	// 			newBoard[i] = null
+	// 			maxVal = Math.max(maxVal, val)
+	// 		}
+	// 		return maxVal
+	// 	} else {
+	// 		let minVal = Infinity
+	// 		for (let i = 0; i < newBoard.length; i++) {
+	// 			if (newBoard[i] !== null) continue
+	// 			newBoard[i] = players.value[0].dice
+	// 			let val = minimax(newBoard, depth - 1, true)
+	// 			newBoard[i] = null
+	// 			minVal = Math.min(minVal, val)
+	// 		}
+	// 		return minVal
+	// 	}
+	// }
+	// function findBestMove(isMaximizingPlayer: boolean, depth: number) {
+	// 	let newBoard = [...board.value]
+	// 	let bestScore = isMaximizingPlayer ? Infinity : -Infinity
+	// 	let bestMove = -1
+
+	// 	for (let i = 0; i < newBoard.length; i++) {
+	// 		if (newBoard[i] !== null) continue
+	// 		newBoard[i] = isMaximizingPlayer ? players.value[0].dice : players.value[1].dice
+	// 		let score = minimax(newBoard, depth - 1, isMaximizingPlayer)
+	// 		newBoard[i] = null
+
+	// 		if (!isMaximizingPlayer) {
+	// 			if (score > bestScore) {
+	// 				bestScore = score
+	// 				bestMove = i
+	// 			}
+	// 		} else {
+	// 			if (score < bestScore) {
+	// 				bestScore = score
+	// 				bestMove = i
+	// 			}
+	// 		}
+	// 	}
+
+	// 	return isMaximizingPlayer ? bestScore : bestMove
+	// }
 </script>
