@@ -21,11 +21,11 @@
 					<button class="px-2 py-0.5 bg-violet-400 rounded transition-shadow hover:shadow-md" @click="start">Restart</button>
 					<button class="px-2 py-0.5 bg-violet-400 rounded transition-shadow hover:shadow-md" @click="cancel">Cancel</button>
 				</div>
-				<div class="grid w-fit h-fit gap-1 justify-items-center select-none relative" :style="dimensionStyle">
+				<div class="grid w-fit h-fit gap-1 select-none relative" :style="dimensionStyle">
 					<slot v-for="y in board">
 						<div v-for="val in y" class="w-[5rem] aspect-square flex items-center justify-center font-semibold rounded" :style="`background:${selectColor(val)}`">{{ val || '' }}</div>
 					</slot>
-					<div class="absolute inset-0 bg-white bg-opacity-60 grid justify-items-center items-center" v-if="gameOver">
+					<div class="absolute inset-0 bg-white bg-opacity-60 grid justify-items-center content-center" v-if="gameOver">
 						<p class="text-xl font-bold">Game over!</p>
 					</div>
 				</div>
