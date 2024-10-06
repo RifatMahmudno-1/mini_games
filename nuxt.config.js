@@ -7,5 +7,15 @@ export default defineNuxtConfig({
 	vite: { build: { assetsInlineLimit: 0 } },
 	postcss: { plugins: { tailwindcss: {} } },
 	css: ['@/assets/css/global.css'],
-	ssr: false
+	app: {
+		head: { title: 'Mini Games' },
+		htmlAttrs: { lang: 'en' },
+		noscript: [{ children: 'Javascript is required to run this website' }],
+		meta: [
+			{ name: 'author', content: 'Rifat Mahmud' },
+			{ name: 'creator', content: 'Rifat Mahmud' },
+			{ property: 'og:type', content: 'website' }
+		],
+		link: [{ rel: 'icon', href: '/favicon.ico' }]
+	}
 })
