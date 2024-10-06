@@ -230,7 +230,7 @@
 		chance.value = firstMove.value
 		winner.value = null
 		// just to make it faster
-		if (gameMode.value === 1 && chance.value === 1) clicked(1) // computerTurn()
+		if (gameMode.value === 1 && chance.value === 1) clicked(0) // computerTurn()
 	}
 
 	function restart() {
